@@ -8,7 +8,7 @@ Manufacturing Bill of Material Data Services
 2. Build the project
  
 ```sh
-mvn clean install
+mvn clean package
 ```
 
 ### To run this code, you need to do: 
