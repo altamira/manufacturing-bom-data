@@ -1,14 +1,17 @@
 package br.com.altamira.data.manufacturing.bom.service;
 
-import java.util.Date;
-
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriBuilder;
 
+import br.com.altamira.data.manufacturing.bom.dao.OrderDao;
 import br.com.altamira.data.manufacturing.bom.model.Order;
 
 /**
@@ -16,18 +19,37 @@ import br.com.altamira.data.manufacturing.bom.model.Order;
  */
 @Path("/order")
 public class OrderEndpoint {
-
-    /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
-     */
+    
     @GET
-    @Path("/{id:[0-9][0-9]*}")
+    @Path("/{number:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getList(@PathParam("id") Long id) {
-    	Order order = new Order(id, Long.valueOf(72271l), "DARUMA", "00085088", new Date());
-        return Response.ok(order).build();
+    public Response findByNumber(@PathParam("number") Long number) {
+    	
+    	System.out.println("Requesting Order number: " + number);
+
+    	Order order = OrderDao.findByNumber(number);
+    	
+    	if (order == null) {
+    		return Response.status(Status.NOT_FOUND).build();
+    	}
+    	
+        return Response.ok().entity(order).build();
+    }
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Order order) {
+    	
+    	Order entity = OrderDao.create(order);
+    	
+    	if (entity == null) {
+    		return Response.status(Status.BAD_REQUEST).build();
+    	}
+    	
+    	return Response
+    			.created(
+    					UriBuilder.fromResource(OrderEndpoint.class)
+    						.path(String.valueOf(entity.getNumber())).build())
+    			.entity(entity).build();
     }
 }

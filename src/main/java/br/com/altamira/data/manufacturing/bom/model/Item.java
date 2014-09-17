@@ -1,70 +1,30 @@
 package br.com.altamira.data.manufacturing.bom.model;
 
+import java.util.List;
+
 public class Item {
 
-	Long id;
-	int group;
-	int subgroup;
 	int item;
-	String code;
-	String color;
-	String quantity;
-	int sequence;
-	String comment;
+	String description;
+	List<Product> product;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public int getGroup() {
-		return group;
-	}
-	public void setGroup(int group) {
-		this.group = group;
-	}
-	public int getSubgroup() {
-		return subgroup;
-	}
-	public void setSubgroup(int subgroup) {
-		this.subgroup = subgroup;
-	}
 	public int getItem() {
 		return item;
 	}
 	public void setItem(int item) {
 		this.item = item;
 	}
-	public String getCode() {
-		return code;
+	public String getDescription() {
+		return description;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public String getColor() {
-		return color;
+	public List<Product> getProduct() {
+		return product;
 	}
-	public void setColor(String color) {
-		this.color = color;
-	}
-	public String getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
-	public int getSequence() {
-		return sequence;
-	}
-	public void setSequence(int sequence) {
-		this.sequence = sequence;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setProduct(List<Product> product) {
+		this.product = product;
 	}
 
 }
