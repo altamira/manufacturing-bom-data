@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import br.com.altamira.data.manufacturing.bom.dao.OrderDao;
 import br.com.altamira.data.manufacturing.bom.model.Order;
 
 /**
@@ -27,7 +26,7 @@ public class OrderEndpoint {
     	
     	System.out.println("Requesting Order number: " + number);
 
-    	Order order = OrderDao.findByNumber(number);
+    	Order order = Order.findByNumber(number);
     	
     	if (order == null) {
     		return Response.status(Status.NOT_FOUND).build();
@@ -40,7 +39,7 @@ public class OrderEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Order order) {
     	
-    	Order entity = OrderDao.create(order);
+    	Order entity = order.save();
     	
     	if (entity == null) {
     		return Response.status(Status.BAD_REQUEST).build();
