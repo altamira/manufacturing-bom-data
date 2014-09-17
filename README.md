@@ -1,7 +1,17 @@
 Manufacturing Bill of Material Data Services
 ============================================
 
-To run this code, you need to do: 
+### How to build this project
+
+1. Clone this repository to git home
+
+2. Build the project
+ 
+```sh
+mvn clean package
+```
+
+### To run this code, you need to do: 
 
 1. Install [neo4j](http://neo4j.com/artifact.php?name=neo4j-community_windows_2_1_3.exe) database.
 
