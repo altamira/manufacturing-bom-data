@@ -6,7 +6,7 @@ import com.tinkerpop.blueprints.GraphQuery;
 import com.tinkerpop.blueprints.Vertex;
 
 import br.com.altamira.data.manufacturing.bom.model.Order;
-import br.com.altamira.data.manufacturing.bom.service.Store;
+import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 
 
 public class OrderDao {
@@ -14,7 +14,7 @@ public class OrderDao {
 	public static Order create(Order order) {
 		System.out.println("Create Order: " + order);
 		
-    	Vertex vertex = Store.graph.addVertex(null);
+    	Vertex vertex = GraphDbFactory.graph.addVertex(null);
     	
     	vertex.setProperty("number", order.getNumber());
     	vertex.setProperty("customer", order.getCustomer());
@@ -24,17 +24,17 @@ public class OrderDao {
     	vertex.setProperty("quotation", order.getQuotation());
     	vertex.setProperty("comment", order.getComment());
     	
-    	System.out.println("Add new vertex: " + Store.graph.toString());
+    	System.out.println("Add new vertex: " + GraphDbFactory.graph.toString());
     	
     	return order;
 	}
 	
 	public static Order find(String id) {
     	
-    	Vertex vertex = Store.graph.getVertex(id);
+    	Vertex vertex = GraphDbFactory.graph.getVertex(id);
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	
@@ -55,12 +55,12 @@ public class OrderDao {
 	
 	public static Order findByNumber(Long number) {
     	
-    	GraphQuery q = Store.graph.query();
+    	GraphQuery q = GraphDbFactory.graph.query();
     	
     	Vertex vertex = q.has("number", number).vertices().iterator().next();
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	

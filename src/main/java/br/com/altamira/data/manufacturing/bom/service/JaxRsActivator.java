@@ -9,7 +9,7 @@ public class JaxRsActivator extends Application {
 	public JaxRsActivator() {
 		super();
 		
-		System.out.println("Start graph database: " + Store.graph.toString());
+		System.out.println("Start graph database: " + GraphDbFactory.graph.toString());
 	}
 
 }

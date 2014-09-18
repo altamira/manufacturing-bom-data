@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.altamira.data.manufacturing.bom.service.Store;
-
+import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
@@ -26,7 +25,7 @@ public class Order {
 	
 	List<Item> item = new ArrayList<Item>();
 	
-	static Graph g = Store.graph;
+	static final Graph g = GraphDbFactory.graph;
 	
 	public Order() {
 		
@@ -128,14 +127,14 @@ public class Order {
     	
     	this.id = vertex.getId();
     	
-    	System.out.println("Add new order: id=" + vertex.getId() + ", " + Store.graph.toString());
+    	System.out.println("Add new order: id=" + vertex.getId() + ", " + GraphDbFactory.graph.toString());
     	
     	for (Item i : item) {
     		i.save();
     		vertex.addEdge("item", g.getVertex(i.getId()));
     	}
     	
-    	System.out.println(Store.graph.toString());
+    	System.out.println(GraphDbFactory.graph.toString());
     	
     	return this;
 	}
@@ -178,7 +177,7 @@ public class Order {
     	Vertex vertex = q.has("number", number).vertices().iterator().next();
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	

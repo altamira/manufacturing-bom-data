@@ -9,9 +9,10 @@ import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.GraphQuery;
 import com.tinkerpop.blueprints.Vertex;
 
-public class Product {
+public class Component {
 
 	Object id;
 	String code;
@@ -81,7 +82,7 @@ public class Product {
 		this.component = component;
 	}
 
-	public Product save() {
+	public Component save() {
 		
     	Vertex vertex = g.addVertex(null);
     	
@@ -93,7 +94,7 @@ public class Product {
     	
     	this.id = vertex.getId();
     	
-    	System.out.println("Add new product: id=" + vertex.getId() + ", " + GraphDbFactory.graph.toString());
+    	System.out.println("Add new component: id=" + vertex.getId() + ", " + GraphDbFactory.graph.toString());
     	
     	for (Component c : component) {
     		c.save();
@@ -103,41 +104,41 @@ public class Product {
     	return this;
 	}
 	
-	/*public static Product findByProduct(Long number) {
+	public static Component findByComponent(Long number) {
     	
     	GraphQuery q = g.query();
     	
     	Vertex vertex = q.has("number", number).vertices().iterator().next();
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	
     	System.out.println("Vertex found: " + vertex.toString());
 
 		return load(vertex);
-	}*/
+	}
 	
-	public static Product load(Vertex vertex) {
+	public static Component load(Vertex vertex) {
     	
-		Product product = new Product();
+		Component component = new Component();
 	
-		product.setCode(vertex.getProperty("code").toString());
-		product.setColor(vertex.getProperty("color").toString());
-		product.setDescription((String)vertex.getProperty("description"));
-		product.setQuantity((float)vertex.getProperty("quantity"));
-		product.setWeight((float)vertex.getProperty("weight"));
+		component.setCode(vertex.getProperty("code").toString());
+		component.setColor(vertex.getProperty("color").toString());
+		component.setDescription((String)vertex.getProperty("description"));
+		component.setQuantity((float)vertex.getProperty("quantity"));
+		component.setWeight((float)vertex.getProperty("weight"));
 		
-		product.setId(vertex.getId());
+		component.setId(vertex.getId());
 		
 		Iterator<Vertex> components = vertex.getVertices(Direction.OUT, "component").iterator();
 
 		while (components.hasNext()) {
-			product.component.add(Component.load(components.next()));
+			component.component.add(Component.load(components.next()));
 		}
 		
-		return product;
+		return component;
 	}
 	
 	public Order delete(Order order) {

@@ -2,7 +2,7 @@ package br.com.altamira.data.manufacturing.bom.dao;
 
 import br.com.altamira.data.manufacturing.bom.model.Item;
 import br.com.altamira.data.manufacturing.bom.model.Order;
-import br.com.altamira.data.manufacturing.bom.service.Store;
+import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 
 import com.tinkerpop.blueprints.GraphQuery;
 import com.tinkerpop.blueprints.Vertex;
@@ -12,24 +12,24 @@ public class ItemDao {
 	public static Item create(Item item) {
 		System.out.println("Create Item: " + item);
 		
-    	Vertex vertex = Store.graph.addVertex(null);
+    	Vertex vertex = GraphDbFactory.graph.addVertex(null);
     	
     	vertex.setProperty("item", item.getItem());
     	vertex.setProperty("description", item.getDescription());
     	
-    	System.out.println("Add new vertex: " + Store.graph.toString());
+    	System.out.println("Add new vertex: " + GraphDbFactory.graph.toString());
     	
     	return item;
 	}
 	
 	public static Item findByItem(Long number) {
     	
-    	GraphQuery q = Store.graph.query();
+    	GraphQuery q = GraphDbFactory.graph.query();
     	
     	Vertex vertex = q.has("number", number).vertices().iterator().next();
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import br.com.altamira.data.manufacturing.bom.service.Store;
-
+import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.GraphQuery;
 import com.tinkerpop.blueprints.Vertex;
 
 public class Item {
@@ -19,7 +17,7 @@ public class Item {
 	String description;
 	List<Product> product = new ArrayList<Product>();
 	
-	static Graph g = Store.graph;
+	static final Graph g = GraphDbFactory.graph;
 	
 	@JsonIgnore
 	public Object getId() {
@@ -63,7 +61,7 @@ public class Item {
     	
     	this.id = vertex.getId();
     	
-    	System.out.println("Add new item: id=" + vertex.getId() + ", " + Store.graph.toString());
+    	System.out.println("Add new item: id=" + vertex.getId() + ", " + GraphDbFactory.graph.toString());
     	
     	for (Product p : product) {
     		p.save();
@@ -73,7 +71,7 @@ public class Item {
     	return this;
 	}
 	
-	public static Item findByItem(Order order) {
+	/*public static Item findByItem(Order order) {
     	
     	GraphQuery q = g.query();
     	
@@ -87,7 +85,7 @@ public class Item {
     	System.out.println("Vertex found: " + vertex.toString());
 		
 		return load(vertex);
-	}
+	}*/
 
 	public static Item load(Vertex vertex) {
     	

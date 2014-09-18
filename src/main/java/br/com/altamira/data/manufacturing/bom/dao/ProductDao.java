@@ -2,8 +2,7 @@ package br.com.altamira.data.manufacturing.bom.dao;
 
 import br.com.altamira.data.manufacturing.bom.model.Product;
 import br.com.altamira.data.manufacturing.bom.model.Order;
-import br.com.altamira.data.manufacturing.bom.service.Store;
-
+import br.com.altamira.data.manufacturing.bom.service.GraphDbFactory;
 import com.tinkerpop.blueprints.GraphQuery;
 import com.tinkerpop.blueprints.Vertex;
 
@@ -12,7 +11,7 @@ public class ProductDao {
 	public static Product create(Product product) {
 		System.out.println("Create Product: " + product);
 		
-    	Vertex vertex = Store.graph.addVertex(null);
+    	Vertex vertex = GraphDbFactory.graph.addVertex(null);
     	
     	vertex.setProperty("code", product.getCode());
     	vertex.setProperty("color", product.getColor());
@@ -20,19 +19,19 @@ public class ProductDao {
     	vertex.setProperty("quantity", product.getQuantity());
     	vertex.setProperty("weight", product.getWeight());
     	
-    	System.out.println("Add new vertex: " + Store.graph.toString());
+    	System.out.println("Add new vertex: " + GraphDbFactory.graph.toString());
     	
     	return product;
 	}
 	
 	public static Product findByProduct(Long number) {
     	
-    	GraphQuery q = Store.graph.query();
+    	GraphQuery q = GraphDbFactory.graph.query();
     	
     	Vertex vertex = q.has("number", number).vertices().iterator().next();
     	
     	if (vertex == null) {
-    		System.out.println("Vertex not found! " + Store.graph.toString());
+    		System.out.println("Vertex not found! " + GraphDbFactory.graph.toString());
     		return null;
     	}
     	
